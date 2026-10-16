@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MAENSTRA // STEALTH PANEL</title>
+<style>
+:root{color-scheme:dark;--bg:#09090d;--panel:#14141c;--line:#30202a;--red:#ff3158;--muted:#a7a2ad;--green:#65f0b0}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(ellipse at top,#25101b 0,#09090d 55%);font:15px system-ui,-apple-system,Segoe UI,sans-serif;color:#f7f4f7;min-height:100vh;padding:22px 14px}
+main{max-width:560px;margin:auto}
+.top{display:flex;align-items:center;gap:13px;margin:8px 0 20px}
+.logo{width:54px;height:54px;border:1px solid var(--red);border-radius:15px;display:grid;place-items:center;color:var(--red);font-weight:900;font-size:24px;box-shadow:0 0 26px #ff31581f}
+h1{font-size:21px;letter-spacing:1.5px;margin:0}
+.sub{color:var(--muted);font-size:12px;margin-top:4px}
+.pill{margin-left:auto;border:1px solid #285b47;background:#10251e;color:var(--green);padding:6px 9px;border-radius:99px;font-size:11px}
+.card{background:linear-gradient(145deg,#17171f,#101016);border:1px solid var(--line);border-radius:18px;padding:17px;margin:12px 0;box-shadow:0 12px 35px #0004}
+h2{font-size:13px;letter-spacing:1.4px;color:#ff8ba2;margin:0 0 14px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #ffffff0d}
+.row:last-child{border-bottom:0;padding-bottom:0}
+.name{font-weight:650}.desc{font-size:12px;color:var(--muted);margin-top:3px}
+.switch{width:48px;height:27px;border:1px solid #51404a;background:#29232b;border-radius:99px;padding:3px;cursor:pointer;flex-shrink:0}
+.switch span{display:block;width:19px;height:19px;border-radius:50%;background:#a59aa3;transition:.18s}
+.switch[aria-checked="true"]{background:#6b172b;border-color:var(--red)}
+.switch[aria-checked="true"] span{transform:translateX(20px);background:#fff}
+button,select{font:inherit}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+select{background:#211b23;color:white;border:1px solid #45313b;border-radius:10px;padding:9px;max-width:58%}
+.statgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.stat{padding:13px;background:#0c0c12;border:1px solid #27212a;border-radius:12px}
+.stat strong{display:block;font-size:20px}.stat small{color:var(--muted)}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.action{flex:1;min-width:130px;border:1px solid #663040;background:#28121b;color:#fff;padding:11px 12px;border-radius:11px;cursor:pointer}
+.action.primary{background:var(--red);border-color:var(--red);color:#19070c;font-weight:800}
+.note{font-size:12px;line-height:1.5;color:var(--muted)}
+#toast{min-height:20px;color:var(--green);font-size:12px;margin-top:10px}
+footer{text-align:center;color:#746d78;font-size:11px;padding:14px}
+</style>
+</head>
+<body>
+<main>
+  <header class="top">
+    <div class="logo">M</div>
+    <div><h1>MAENSTRA</h1><div class="sub">STEALTH PANEL · LOCAL DEMO</div></div>
+    <div class="pill">● OFFLINE</div>
+  </header>
+
+  <section class="card">
+    <h2>▰ SESSION STATUS</h2>
+    <div class="statgrid">
+      <div class="stat"><strong id="session">READY</strong><small>Demo session</small></div>
+      <div class="stat"><strong id="enabled">2 / 3</strong><small>Active options</small></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>▰ DISPLAY OPTIONS</h2>
+    <div class="row">
+      <div><div class="name">FPS display</div><div class="desc">Tampilkan indikator demo</div></div>
+      <button class="switch" role="switch" aria-checked="true" data-key="fps" aria-label="FPS display"><span></span></button>
+    </div>
+    <div class="row">
+      <div><div class="name">Compact mode</div><div class="desc">Tampilan panel lebih ringkas</div></div>
+      <button class="switch" role="switch" aria-checked="false" data-key="compact" aria-label="Compact mode"><span></span></button>
+    </div>
+    <div class="row">
+      <div><div class="name">Neon glow</div><div class="desc">Efek visual pada panel</div></div>
+      <button class="switch" role="switch" aria-checked="true" data-key="glow" aria-label="Neon glow"><span></span></button>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>▰ VISUAL PRESET</h2>
+    <div class="row">
+      <div><div class="name">Tema panel</div><div class="desc">Ubah aksen antarmuka</div></div>
+      <select id="theme" aria-label="Tema panel">
+        <option value="red">Crimson</option>
+        <option value="blue">Electric Blue</option>
+        <option value="purple">Violet</option>
+      </select>
+    </div>
+    <div class="row">
+      <div><div class="name">Panel scale</div><div class="desc">Kepadatan tampilan</div></div>
+      <select id="scale" aria-label="Panel scale">
+        <option value="normal">Normal</option>
+        <option value="compact">Compact</option>
+        <option value="large">Large</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>▰ LOCAL CONFIG</h2>
+    <div class="actions">
+      <button class="action primary" id="save">Save settings</button>
+      <button class="action" id="reset">Reset defaults</button>
+    </div>
+    <div id="toast" role="status" aria-live="polite"></div>
+    <p class="note">Pengaturan disimpan hanya di penyimpanan lokal browser. Panel ini adalah demo UI mandiri; tidak terhubung ke Free Fire, tidak mengubah file game, dan tidak menyediakan fitur cheat.</p>
+  </section>
+  <footer>MAENSTRA PANEL · BUILD 1.0 · LOCAL DEMO</footer>
+</main>
+<script>
+const defaults={fps:true,compact:false,glow:true,theme:'red',scale:'normal'};
+let state={...defaults};
+const $=s=>document.querySelector(s);
+function apply(){
+  document.querySelectorAll('[data-key]').forEach(b=>b.setAttribute('aria-checked',String(!!state[b.dataset.key])));
+  $('#theme').value=state.theme;$('#scale').value=state.scale;
+  const n=['fps','compact','glow'].filter(k=>state[k]).length;
+  $('#enabled').textContent=`${n} / 3`;
+  document.body.style.setProperty('--red',({red:'#ff3158',blue:'#42a5ff',purple:'#bc75ff'})[state.theme]||'#ff3158');
+  $('.card').style.padding=state.compact?'11px':'17px';
+  document.querySelectorAll('.card').forEach(c=>c.style.padding=state.compact?'11px':'17px');
+  $('.logo').style.boxShadow=state.glow?'0 0 26px #ff31581f':'none';
+  document.body.style.fontSize=state.scale==='large'?'17px':state.scale==='compact'?'13px':'15px';
+}
+document.querySelectorAll('[data-key]').forEach(b=>b.addEventListener('click',()=>{state[b.dataset.key]=!state[b.dataset.key];apply();}));
+$('#theme').addEventListener('change',e=>{state.theme=e.target.value;apply();});
+$('#scale').addEventListener('change',e=>{state.scale=e.target.value;apply();});
+$('#save').addEventListener('click',()=>{
+  try{localStorage.setItem('maenstra-settings',JSON.stringify(state));$('#toast').textContent='✓ Settings saved on this browser.';}
+  catch(e){$('#toast').textContent='Penyimpanan lokal tidak tersedia di browser ini.';}
+});
+$('#reset').addEventListener('click',()=>{
+  state={...defaults};apply();
+  try{localStorage.removeItem('maenstra-settings');}catch(e){}
+  $('#toast').textContent='Pengaturan dikembalikan ke default.';
+});
+try{const saved=localStorage.getItem('maenstra-settings');if(saved){const parsed=JSON.parse(saved);state={...defaults,...parsed};}}catch(e){}
+apply();
+</script>
+</body>
+</html>
